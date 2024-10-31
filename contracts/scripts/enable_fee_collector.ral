@@ -1,3 +1,0 @@
-TxScript EnableFeeCollector(tokenPairFactory: TokenPairFactory, tokenPair: TokenPair) {
-  tokenPairFactory.enableFeeCollector{callerAddress!() -> ALPH: 1 alph}(tokenPair, 1 alph)
-}

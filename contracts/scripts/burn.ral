@@ -1,3 +1,0 @@
-TxScript Burn(tokenPair: TokenPair, sender: Address, liquidity: U256) {
-  let (_, _) = tokenPair.burn{sender -> tokenId!(tokenPair): liquidity}(sender, liquidity)
-}

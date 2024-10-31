@@ -1,3 +1,0 @@
-TxScript MintTestToken(testToken: TestToken, amount: U256) {
-    testToken.mint(amount)
-}

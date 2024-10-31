@@ -1,3 +1,0 @@
-TxScript WithdrawFees(feeCollector: FeeCollectorPerTokenPairImpl, amount: U256) {
-    feeCollector.withdraw(callerAddress!(), amount)
-}

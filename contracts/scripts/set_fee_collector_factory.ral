@@ -1,3 +1,0 @@
-TxScript SetFeeCollectorFactory(tokenPairFactory: TokenPairFactory, feeCollectorFactory: FeeCollectorFactory) {
-  tokenPairFactory.setFeeCollectorFactory(feeCollectorFactory)
-}
