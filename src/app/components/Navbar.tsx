@@ -1,26 +1,60 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from 'next/image';
+import logo from '../public/logo.svg'; // Adjusted path to point to the public directory
+import { NodeProvider, web3 } from '@alephium/web3';
+import { useWallet } from '@alephium/web3-react'; // Import useWallet
+
+const ConnectWallet: React.FC = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [account, setAccount] = useState<string | null>(null);
+  const wallet = useWallet(); // Use the useWallet hook
+
+  const connectWallet = async () => {
+    try {
+      // Set the node provider (replace with your node URL)
+      const nodeProvider = new NodeProvider('http://localhost:22973');
+      web3.setCurrentNodeProvider(nodeProvider);
+      // Request wallet connection
+      if (wallet.account) {
+        setAccount(wallet.account.address);
+        setIsConnected(true);
+        console.log('Wallet connected:', wallet.account.address);
+      } else {
+        console.log('No accounts found.');
+      }
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+    }
+  };
+
+  return (
+    <button
+      onClick={connectWallet}
+      className="items-center justify-center px-4 py-2 ml-10 text-base font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-blue-700 lg:inline-flex hover:from-blue-600 hover:to-blue-800 rounded-full"
+      role="button"
+    >
+      {isConnected ? `Connected: ${account?.slice(0, 6)}...` : 'Connect Wallet'}
+    </button>
+  );
+};
 
 const Navbar = () => {
-  // State to toggle mobile menu visibility
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Function to toggle menu
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <header className="pb-4 bg-transparent lg:pb-0">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between h-16 lg:h-">
-          {/* Logo Section */}
+        <nav className="flex items-center justify-between h-16 lg:h-16">
           <div className="flex-shrink-0">
             <a href="#" title="Home" className="flex">
-              <img className="w-auto h-8 lg:h-5" src="logo.svg" alt="Logo" />
+              <Image className="w-auto h-8 lg:h-5" src={logo} alt="Logo" />
             </a>
           </div>
 
-          {/* Hamburger Icon for Mobile */}
           <button
             type="button"
             onClick={toggleMenu}
@@ -59,7 +93,6 @@ const Navbar = () => {
             )}
           </button>
 
-          {/* Desktop Menu Links */}
           <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1 lg:space-x-10">
             {["Swap", "Pool", "Markets", "About Us", "Support"].map((link) => (
               <a
@@ -71,20 +104,10 @@ const Navbar = () => {
                 {link}
               </a>
             ))}
+            <ConnectWallet /> {/* Add the ConnectWallet component here */}
           </div>
-
-          {/* Connect Wallet Button (Visible on Desktop) */}
-          <a
-            href="#"
-            title="Connect Wallet"
-            className="items-center justify-center hidden px-4 py-2 ml-10 text-base font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-blue-700 lg:inline-flex hover:from-blue-600 hover:to-blue-800 rounded-full"
-            role="button"
-          >
-            Connect Wallet
-          </a>
         </nav>
 
-        {/* Mobile Menu Drawer */}
         {isMenuOpen && (
           <nav className="pt-4 pb-6 bg-white border border-gray-200 rounded-md shadow-md lg:hidden">
             <div className="flow-root">
@@ -105,14 +128,7 @@ const Navbar = () => {
             </div>
 
             <div className="px-6 mt-6">
-              <a
-                href="#"
-                title="Connect Wallet"
-                className="inline-flex justify-center px-4 py-2 text-base font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 rounded-full"
-                role="button"
-              >
-                Connect Wallet
-              </a>
+              <ConnectWallet /> {/* Add the ConnectWallet component here for mobile */}
             </div>
           </nav>
         )}

@@ -15,7 +15,7 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative w-full h-screen flex flex-col justify-center bg-cover bg-center bg-transparent mb-20">
+    <section className={`relative w-full h-screen flex flex-col justify-center bg-cover bg-center bg-transparent mb-20 ${isScrolled ? 'scrolled' : ''}`}>
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 pt-20 -mt-20">
         <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2 text-center lg:text-left">
           <div>
