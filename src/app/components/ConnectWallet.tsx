@@ -5,7 +5,6 @@ import { addressFromPublicKey, NodeProvider, web3 } from '@alephium/web3';
 import { useWallet } from '@alephium/web3-react'; 
 import { useConnect } from '@alephium/web3-react';
 
-
 const ConnectWallet: React.FC = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [account, setAccount] = useState<string | null>(null);
@@ -14,9 +13,10 @@ const ConnectWallet: React.FC = () => {
 
   const connectWallet = async () => {
     try {
-      await connect();
+      await connect(); // Trigger the wallet connection
       const nodeProvider = new NodeProvider('http://localhost:22973');
       web3.setCurrentNodeProvider(nodeProvider);
+
       if (Array.isArray(wallet.account)) {
         const accounts = wallet.account;
         if (accounts.length > 0) {
@@ -29,10 +29,10 @@ const ConnectWallet: React.FC = () => {
       } else {
         console.log('No accounts found.');
       }
-      } catch (error) {
-        console.error('Failed to connect wallet:', error);
-      }
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
     }
+  };
 
   return (
     <button
