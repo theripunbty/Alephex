@@ -1,41 +1,39 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from 'next/image';
-import logo from '../public/logo.svg'; // Adjusted path to point to the public directory
-import { NodeProvider, web3 } from '@alephium/web3';
-import { useWallet } from '@alephium/web3-react'; // Import useWallet
+import Image from "next/image";
+import { NodeProvider, web3 } from "@alephium/web3";
+import { useWallet } from "@alephium/web3-react";
 
 const ConnectWallet: React.FC = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [account, setAccount] = useState<string | null>(null);
-  const wallet = useWallet(); // Use the useWallet hook
+  const wallet = useWallet();
 
   const connectWallet = async () => {
     try {
-      // Set the node provider (replace with your node URL)
-      const nodeProvider = new NodeProvider('http://localhost:22973');
+      const nodeProvider = new NodeProvider("http://localhost:22973");
       web3.setCurrentNodeProvider(nodeProvider);
-      // Request wallet connection
+
       if (wallet.account) {
         setAccount(wallet.account.address);
         setIsConnected(true);
-        console.log('Wallet connected:', wallet.account.address);
+        console.log("Wallet connected:", wallet.account.address);
       } else {
-        console.log('No accounts found.');
+        console.log("No accounts found.");
       }
     } catch (error) {
-      console.error('Failed to connect wallet:', error);
+      console.error("Failed to connect wallet:", error);
     }
   };
 
   return (
     <button
       onClick={connectWallet}
-      className="items-center justify-center px-4 py-2 ml-10 text-base font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-blue-700 lg:inline-flex hover:from-blue-600 hover:to-blue-800 rounded-full"
+      className="items-center justify-center px-4 py-2 text-base font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 rounded-full"
       role="button"
     >
-      {isConnected ? `Connected: ${account?.slice(0, 6)}...` : 'Connect Wallet'}
+      {isConnected ? `Connected: ${account?.slice(0, 6)}...` : "Connect Wallet"}
     </button>
   );
 };
@@ -51,7 +49,13 @@ const Navbar = () => {
         <nav className="flex items-center justify-between h-16 lg:h-16">
           <div className="flex-shrink-0">
             <a href="#" title="Home" className="flex">
-              <Image className="w-auto h-8 lg:h-5" src={logo} alt="Logo" />
+              <Image
+                className="w-auto h-8 lg:h-5"
+                src="/logo.svg"
+                alt="Logo"
+                width={50}
+                height={50}
+              />
             </a>
           </div>
 
@@ -93,6 +97,7 @@ const Navbar = () => {
             )}
           </button>
 
+         
           <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1 lg:space-x-10">
             {["Swap", "Pool", "Markets", "About Us", "Support"].map((link) => (
               <a
@@ -104,7 +109,11 @@ const Navbar = () => {
                 {link}
               </a>
             ))}
-            <ConnectWallet /> {/* Add the ConnectWallet component here */}
+          </div>
+
+          
+          <div className="hidden lg:flex lg:items-center lg:justify-end lg:flex-1">
+            <ConnectWallet />
           </div>
         </nav>
 
@@ -128,7 +137,7 @@ const Navbar = () => {
             </div>
 
             <div className="px-6 mt-6">
-              <ConnectWallet /> {/* Add the ConnectWallet component here for mobile */}
+              <ConnectWallet />
             </div>
           </nav>
         )}
