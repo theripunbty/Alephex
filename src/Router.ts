@@ -1,6 +1,10 @@
 import { TokenPair, U256 } from './types';
 
 export class Router {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  contractAddress(_contractAddress: unknown, _amount0Desired: string) {
+      throw new Error('Method not implemented.');
+  }
   methods: {
     swapExactTokenForToken?: (
       _pair: TokenPair,
@@ -112,6 +116,6 @@ export class Router {
   ): void {
     // Emit RemoveLP event (example log)
     console.log(`RemoveLP: sender=${sender}, tokenPair=${tokenPair}, liquidity=${liquidity}`);
-    // Implement event emission logic if required
+   
   }
 }

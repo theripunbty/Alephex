@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useWallet } from '@alephium/web3-react';
-import { TokenPair } from './types';
+import { TokenPair } from "@/src/types";
 
 const Hero: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
       return;
     }
 
-    const tokenPair = new TokenPair(); // Initialize your token pair contract
+    const tokenPair = new TokenPair(); // Initialized token pair contract
     const sender = wallet.account.address;
     try {
       const amountInValue = BigInt(amountIn).toString(); // Convert to appropriate unit

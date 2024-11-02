@@ -8,7 +8,7 @@ export class Token {
   }
 
   methods = {
-    async approve(spender: Address, amount: U256) {
+    async approve(spender: Address, p0: { Address: unknown; U256: unknown; TokenPair: typeof TokenPair; Token: typeof Token; }, amount: U256) {
       console.log(`Approving ${amount} for spender ${spender}`);
 
       // Mock logic for approving
@@ -18,6 +18,9 @@ export class Token {
 }
 
 export class TokenPair {
+  swapExactTokenForToken(tokenPair: TokenPair, sender: string, tokenIn: string, amountInValue: string, amountOutMin: string, sender1: string, deadline: number) {
+    throw new Error("Method not implemented.");
+  }
   token0: Address;
   token1: Address;
 

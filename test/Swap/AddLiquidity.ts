@@ -17,8 +17,13 @@ export class AddLiquidity {
     const token1: Token = await Token.at(pair.token1);
 
     // Approve router to spend tokens
-    await token0.methods.approve(router.address, amount0Desired);
-    await token1.methods.approve(router.address, amount1Desired);
+    await token0.methods.approve(router.contractAddress, amount0Desired);
+    await token1.methods.approve(router.contractAddress, amount1Desired);
+
+    // Ensure that the addLiquidity method is defined
+    if (!router.methods.addLiquidity) {
+      throw new Error('addLiquidity method is not defined on the router');
+    }
 
     // Call addLiquidity with the correct parameter order
     await router.methods.addLiquidity(
