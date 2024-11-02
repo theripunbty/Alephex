@@ -1,22 +1,22 @@
 import "./globals.css";
-import { AlephiumConnectProvider } from "@alephium/web3-react"; // Import the providers
-import Navbar from "./components/Navbar";
+import { AlephiumWalletProvider } from "@alephium/web3-react";
+import { Navbar } from "./components/Navbar";
 import Footer from "./components/Footer";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <AlephiumConnectProvider network={"mainnet"}>
-      <html lang="en">
-        <body className="antialiased">
+    <html lang="en">
+      <body>
+        <AlephiumWalletProvider network="devnet">
           <Navbar />
           {children}
           <Footer />
-        </body>
-      </html>
-    </AlephiumConnectProvider>
+        </AlephiumWalletProvider>
+      </body>
+    </html>
   );
 }

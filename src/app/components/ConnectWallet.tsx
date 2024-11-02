@@ -1,46 +1,32 @@
 "use client";
-
-import React, { useState } from 'react';
-import { addressFromPublicKey, NodeProvider, web3 } from '@alephium/web3';
-import { useWallet } from '@alephium/web3-react'; 
+import React from 'react';
+import { useWallet } from '@alephium/web3-react';
 import { useConnect } from '@alephium/web3-react';
+import { NodeProvider, web3 } from '@alephium/web3';
 
-const ConnectWallet: React.FC = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [account, setAccount] = useState<string | null>(null);
+const ConnectWallet = () => {
   const wallet = useWallet();
   const { connect } = useConnect();
 
-  const connectWallet = async () => {
+  const handleConnectWallet = async () => {
     try {
-      await connect(); // Trigger the wallet connection
-      const nodeProvider = new NodeProvider('http://localhost:22973');
+      const nodeProvider = new NodeProvider("http://localhost:22973");
       web3.setCurrentNodeProvider(nodeProvider);
-
-      if (Array.isArray(wallet.account)) {
-        const accounts = wallet.account;
-        if (accounts.length > 0) {
-          setAccount(addressFromPublicKey(accounts[0].publicKey));
-          setIsConnected(true);
-          console.log('Wallet connected successfully:', accounts[0].publicKey);
-        } else {
-          console.log('No accounts found.');
-        }
-      } else {
-        console.log('No accounts found.');
-      }
+      await connect();
     } catch (error) {
-      console.error('Failed to connect wallet:', error);
+      console.error("Failed to connect wallet:", error);
     }
   };
 
   return (
     <button
-      onClick={connectWallet}
-      className="items-center justify-center hidden px-4 py-2 ml-10 text-base font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-blue-700 lg:inline-flex hover:from-blue-600 hover:to-blue-800 rounded-full"
-      role="button"
+      onClick={handleConnectWallet}
+      className="inline-flex items-center justify-center px-6 py-2 text-base font-medium text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700"
     >
-      {isConnected ? `Connected: ${account?.slice(0, 6)}...` : 'Connect Wallet'}
+      {wallet.account ? 
+        `Connected: ${wallet.account.address.slice(0, 6)}...${wallet.account.address.slice(-4)}` : 
+        'Connect Wallet'
+      }
     </button>
   );
 };

@@ -4,20 +4,22 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { NodeProvider, web3 } from "@alephium/web3";
 import { useWallet } from "@alephium/web3-react";
+import { useConnect } from "@alephium/web3-react";
+import ConnectWallet from "./ConnectWallet";
 
-const ConnectWallet: React.FC = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [account, setAccount] = useState<string | null>(null);
+export const Navbar = () => {
   const wallet = useWallet();
+  const { connect } = useConnect();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const connectWallet = async () => {
+  const handleConnectWallet = async () => {
     try {
       const nodeProvider = new NodeProvider("http://localhost:22973");
       web3.setCurrentNodeProvider(nodeProvider);
+      await connect();
+      setIsMenuOpen(false);
 
       if (wallet.account) {
-        setAccount(wallet.account.address);
-        setIsConnected(true);
         console.log("Wallet connected:", wallet.account.address);
       } else {
         console.log("No accounts found.");
@@ -26,20 +28,6 @@ const ConnectWallet: React.FC = () => {
       console.error("Failed to connect wallet:", error);
     }
   };
-
-  return (
-    <button
-      onClick={connectWallet}
-      className="items-center justify-center px-4 py-2 text-base font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 rounded-full"
-      role="button"
-    >
-      {isConnected ? `Connected: ${account?.slice(0, 6)}...` : "Connect Wallet"}
-    </button>
-  );
-};
-
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -97,7 +85,6 @@ const Navbar = () => {
             )}
           </button>
 
-         
           <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1 lg:space-x-10">
             {["Swap", "Pool", "Markets", "About Us", "Support"].map((link) => (
               <a
@@ -111,7 +98,6 @@ const Navbar = () => {
             ))}
           </div>
 
-          
           <div className="hidden lg:flex lg:items-center lg:justify-end lg:flex-1">
             <ConnectWallet />
           </div>
@@ -144,6 +130,4 @@ const Navbar = () => {
       </div>
     </header>
   );
-};
-
-export default Navbar;
+}
