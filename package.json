@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 3001",
-    "lint": "next lint"
+    "lint": "next lint",
+    "compile": "tsc"
   },
   "dependencies": {
+    "@alephium/cli": "^1.8.4",
     "@alephium/web3": "^1.8.4",
     "@alephium/web3-react": "^1.8.4",
     "frontend": "file:",
