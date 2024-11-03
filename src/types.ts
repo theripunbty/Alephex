@@ -19,7 +19,8 @@ export class Token {
 
 export class TokenPair {
   swapExactTokenForToken(tokenPair: TokenPair, sender: string, tokenIn: string, amountInValue: string, amountOutMin: string, sender1: string, deadline: number) {
-    throw new Error("Method not implemented.");
+    console.log(`swapExactTokenForToken called with parameters: tokenPair=${tokenPair}, sender=${sender}, tokenIn=${tokenIn}, amountInValue=${amountInValue}, amountOutMin=${amountOutMin}, sender1=${sender1}, deadline=${deadline}`);
+    // Add real implementation here
   }
   token0: Address;
   token1: Address;

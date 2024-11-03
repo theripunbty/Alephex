@@ -12,12 +12,19 @@ export const Navbar = () => {
   const { connect } = useConnect();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleConnectWallet = async () => {
-    try {
+
       const nodeProvider = new NodeProvider("http://localhost:22973");
+      const handleConnectWallet = async () => {
+        try {
+
       web3.setCurrentNodeProvider(nodeProvider);
       await connect();
       setIsMenuOpen(false);
+      
+      nodeProvider.on("disconnect", () => {
+        console.log("Wallet disconnected. Trying to reconnect...");
+        // Try to reconnect the wallet here
+      });
 
       if (wallet.account) {
         console.log("Wallet connected:", wallet.account.address);
